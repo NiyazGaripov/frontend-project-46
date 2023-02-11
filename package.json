@@ -1,0 +1,20 @@
+{
+  "name": "@hexlet/code",
+  "version": "1.0.0",
+  "description": "CLI tool defining the difference between two data structures",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NiyazGaripov/frontend-project-46.git"
+  },
+  "author": "Niyaz Garipov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NiyazGaripov/frontend-project-46/issues"
+  },
+  "homepage": "https://github.com/NiyazGaripov/frontend-project-46#readme"
+}
