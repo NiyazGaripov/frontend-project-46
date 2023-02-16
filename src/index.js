@@ -7,6 +7,7 @@ const readFile = (filePath) => {
 };
 
 const genDiff = (filePath1, filePath2) => {
-
+  const dataOfFirstFile = readFile(filePath1);
+  const dataOfSecondFile = readFile(filePath2);
 };
 export default genDiff;
