@@ -9,5 +9,7 @@ const readFile = (filePath) => {
 const genDiff = (filePath1, filePath2) => {
   const dataOfFirstFile = JSON.parse(readFile(filePath1));
   const dataOfSecondFile = JSON.parse(readFile(filePath2));
+
+  return compareData(dataOfFirstFile, dataOfSecondFile);
 };
 export default genDiff;
