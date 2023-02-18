@@ -10,6 +10,11 @@ Gendiff is a CLI tool that defines the difference between two files. This mechan
 - Support for different input formats: `yaml`, `json`
 - Report generation as `plain text`, `stylish` and `json`
 
+## Getting Started
+1. Clone this repository
+2. Run the command `make install`
+3. Run the command (you may need sudo) `npm link`
+
 ### Example of the use
 ```
 # plain format
