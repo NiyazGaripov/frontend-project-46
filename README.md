@@ -16,6 +16,9 @@ Gendiff is a CLI tool that defines the difference between two files. This mechan
 3. Run the command (you may need sudo) `npm link`
 
 ### Example of the use
+
+[![asciicast](https://asciinema.org/a/hPmL5GYqDFi8ykJHGWfyqTW91.svg)](https://asciinema.org/a/hPmL5GYqDFi8ykJHGWfyqTW91)
+
 ```
 # plain format
 gendiff --format plain path/to/file.yml another/path/file.json
