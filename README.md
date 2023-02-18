@@ -2,6 +2,8 @@
 
 ### Hexlet tests and linter status:
 [![Actions Status](https://github.com/NiyazGaripov/frontend-project-46/workflows/hexlet-check/badge.svg)](https://github.com/NiyazGaripov/frontend-project-46/actions)
+[![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
+
 
 ## Description
 Gendiff is a CLI tool that defines the difference between two files. This mechanism is used when testing or automatically tracking changes in configuration files.
