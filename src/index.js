@@ -10,25 +10,28 @@ const readFile = (filePath) => {
 const compareData = (dataOfFirstFile, dataOfSecondFile) => {
   const keys = Object.keys({...dataOfFirstFile, ...dataOfSecondFile});
   const sortedKeys = _.sortBy(keys);
-  const valueFromFirstFile = dataOfFirstFile[key];
-  const valueFromSecondFile = dataOfSecondFile[key];
   let diff = '';
 
   sortedKeys.forEach(key => {
-    if (Object.hasOwn(dataOfFirstFile, key) && (Object.hasOwn(dataOfSecondFile, key)) && valueFromFirstFile === valueFromSecondFile) {
+    const valueFromFirstFile = dataOfFirstFile[key];
+    const valueFromSecondFile = dataOfSecondFile[key];
+    const hasPropertyInFirstFile = Object.hasOwn(dataOfFirstFile, key);
+    const hasPropertyInSecondFile = Object.hasOwn(dataOfSecondFile, key);
+
+    if (hasPropertyInFirstFile && hasPropertyInSecondFile && valueFromFirstFile === valueFromSecondFile) {
       diff += `\n    ${key}: ${valueFromFirstFile}\n`;
     }
 
-    if (Object.hasOwn(dataOfFirstFile, key) && (Object.hasOwn(dataOfSecondFile, key)) && valueFromFirstFile !== valueFromSecondFile) {
+    if (hasPropertyInFirstFile && hasPropertyInSecondFile && valueFromFirstFile !== valueFromSecondFile) {
       diff += `\n  - ${key}: ${valueFromFirstFile}\n`;
       diff += `\n  + ${key}: ${valueFromSecondFile}\n`;
     }
 
-    if (Object.hasOwn(dataOfFirstFile, key) && !(Object.hasOwn(dataOfSecondFile, key))) {
+    if (hasPropertyInFirstFile && !hasPropertyInSecondFile) {
       diff += `\n  - ${key}: ${valueFromFirstFile}\n`;
     }
 
-    if (!Object.hasOwn(dataOfFirstFile, key) && (Object.hasOwn(dataOfSecondFile, key))) {
+    if (!hasPropertyInFirstFile && hasPropertyInSecondFile) {
       diff += `\n  + ${key}: ${valueFromSecondFile}\n`;
     }
   });
