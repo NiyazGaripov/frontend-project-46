@@ -2,6 +2,7 @@
 
 ### Hexlet tests and linter status:
 [![Actions Status](https://github.com/NiyazGaripov/frontend-project-46/workflows/hexlet-check/badge.svg)](https://github.com/NiyazGaripov/frontend-project-46/actions)
+[![Maintainability](https://api.codeclimate.com/v1/badges/06137b0a48bf04a0ca6b/maintainability)](https://codeclimate.com/github/NiyazGaripov/frontend-project-46/maintainability)
 [![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
 
 
