@@ -1,0 +1,8 @@
+name: gendiff CI
+
+on:
+  - push
+  - pull_request
+
+env:
+  CI: true
