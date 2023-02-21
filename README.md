@@ -1,7 +1,8 @@
 # Gendiff
 
 ### Hexlet tests and linter status:
-[![Actions Status](https://github.com/NiyazGaripov/frontend-project-46/workflows/hexlet-check/badge.svg)](https://github.com/NiyazGaripov/frontend-project-46/actions)
+[![Actions Status](https://github.com/NiyazGaripov/frontend-project-46/workflows/hexlet-check/badge.svg)](https://github.com/NiyazGaripov/frontend-project-46/actions/workflows/hexlet-check.yml)
+[![gendiff CI](https://github.com/NiyazGaripov/frontend-project-46/workflows/gendiff%20CI/badge.svg)](https://github.com/NiyazGaripov/frontend-project-46/actions/workflows/gendiff.yml)
 [![Maintainability](https://api.codeclimate.com/v1/badges/06137b0a48bf04a0ca6b/maintainability)](https://codeclimate.com/github/NiyazGaripov/frontend-project-46/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/06137b0a48bf04a0ca6b/test_coverage)](https://codeclimate.com/github/NiyazGaripov/frontend-project-46/test_coverage)
 [![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
