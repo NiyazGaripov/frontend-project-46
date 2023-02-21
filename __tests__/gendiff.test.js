@@ -17,3 +17,9 @@ const expected = readFile('expected.txt').toString().trim();
 test('should to get diff between two files', () => {
   expect(genDiff(filePath1, filePath2)).toStrictEqual(expected);
 });
+
+test('should to get exception', () => {
+  expect(() => genDiff('', '')).toThrow();
+  expect(() => genDiff('')).toThrow();
+  expect(() => genDiff()).toThrow();
+});
