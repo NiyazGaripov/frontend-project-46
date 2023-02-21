@@ -9,3 +9,7 @@ const __dirname = dirname(__filename);
 
 const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
 const readFile = (filename) => fs.readFileSync(getFixturePath(filename));
+
+const filePath1 = getFixturePath('file1.json');
+const filePath2 = getFixturePath('file2.json');
+const expected = readFile('expected.txt').toString().trim();
