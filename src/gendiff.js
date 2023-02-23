@@ -1,6 +1,7 @@
 import path from 'path';
 import fs from 'fs';
 import _ from 'lodash';
+import parse from './parsers.js';
 
 const readFile = (filePath) => {
   const fullPath = path.resolve(process.cwd(), filePath);
@@ -49,8 +50,14 @@ const compareData = (dataOfFirstFile, dataOfSecondFile) => {
 };
 
 const genDiff = (filePath1, filePath2) => {
-  const dataOfFirstFile = JSON.parse(readFile(filePath1));
-  const dataOfSecondFile = JSON.parse(readFile(filePath2));
+  const extensionOfFirstFile = path.extname(filePath1);
+  const extensionOfSecondFile = path.extname(filePath2);
+
+  const contentOfFirstFile = readFile(filePath1);
+  const contentOfSecondFile = readFile(filePath2);
+
+  const dataOfFirstFile = parse(contentOfFirstFile, extensionOfFirstFile);
+  const dataOfSecondFile = parse(contentOfSecondFile, extensionOfSecondFile);
 
   return compareData(dataOfFirstFile, dataOfSecondFile);
 };
