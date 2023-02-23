@@ -20,26 +20,26 @@ const buildDiff = (keys, dataOfFirstFile, dataOfSecondFile) => {
     if (hasPropertyInFirstFile
       && hasPropertyInSecondFile
       && valueFromFirstFile === valueFromSecondFile) {
-      diff += `\n    ${key}: ${valueFromFirstFile}\n`;
+      diff += `    ${key}: ${valueFromFirstFile}\n`;
     }
 
     if (hasPropertyInFirstFile
       && hasPropertyInSecondFile
       && valueFromFirstFile !== valueFromSecondFile) {
-      diff += `\n  - ${key}: ${valueFromFirstFile}\n`;
-      diff += `\n  + ${key}: ${valueFromSecondFile}\n`;
+      diff += `  - ${key}: ${valueFromFirstFile}\n`;
+      diff += `  + ${key}: ${valueFromSecondFile}\n`;
     }
 
     if (hasPropertyInFirstFile && !hasPropertyInSecondFile) {
-      diff += `\n  - ${key}: ${valueFromFirstFile}\n`;
+      diff += `  - ${key}: ${valueFromFirstFile}\n`;
     }
 
     if (!hasPropertyInFirstFile && hasPropertyInSecondFile) {
-      diff += `\n  + ${key}: ${valueFromSecondFile}\n`;
+      diff += `  + ${key}: ${valueFromSecondFile}\n`;
     }
   });
 
-  return `{${diff}}`;
+  return `{\n${diff}}`;
 };
 
 const compareData = (dataOfFirstFile, dataOfSecondFile) => {
