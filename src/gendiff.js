@@ -7,12 +7,10 @@ const readFile = (filePath) => {
   return fs.readFileSync(fullPath).toString();
 };
 
-const compareData = (dataOfFirstFile, dataOfSecondFile) => {
-  const keys = Object.keys({ ...dataOfFirstFile, ...dataOfSecondFile });
-  const sortedKeys = _.sortBy(keys);
+const buildDiff = (keys, dataOfFirstFile, dataOfSecondFile) => {
   let diff = '';
 
-  sortedKeys.forEach((key) => {
+  keys.forEach((key) => {
     const valueFromFirstFile = dataOfFirstFile[key];
     const valueFromSecondFile = dataOfSecondFile[key];
     const hasPropertyInFirstFile = Object.hasOwn(dataOfFirstFile, key);
@@ -41,6 +39,13 @@ const compareData = (dataOfFirstFile, dataOfSecondFile) => {
   });
 
   return `{${diff}}`;
+};
+
+const compareData = (dataOfFirstFile, dataOfSecondFile) => {
+  const keys = Object.keys({ ...dataOfFirstFile, ...dataOfSecondFile });
+  const sortedKeys = _.sortBy(keys);
+
+  return buildDiff(sortedKeys, dataOfFirstFile, dataOfSecondFile);
 };
 
 const genDiff = (filePath1, filePath2) => {
