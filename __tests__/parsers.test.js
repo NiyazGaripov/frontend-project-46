@@ -17,3 +17,8 @@ const extensionJson = path.extname('file1.json');
 const extensionYaml = path.extname('file2.yml');
 const expectedJson = JSON.parse(contentOfJsonFile.toString());
 const expectedYaml = yaml.load(contentOfYamlFile);
+
+test('should to parse data', () => {
+  expect(parse(contentOfJsonFile, extensionJson)).toStrictEqual(expectedJson);
+  expect(parse(contentOfYamlFile, extensionYaml)).toStrictEqual(expectedYaml);
+});
