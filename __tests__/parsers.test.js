@@ -22,3 +22,8 @@ test('should to parse data', () => {
   expect(parse(contentOfJsonFile, extensionJson)).toStrictEqual(expectedJson);
   expect(parse(contentOfYamlFile, extensionYaml)).toStrictEqual(expectedYaml);
 });
+
+test('should to get exception', () => {
+  expect(() => parse('', '')).toThrow();
+  expect(() => parse('', extensionJson)).toThrow();
+});
