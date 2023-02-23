@@ -10,3 +10,10 @@ const __dirname = dirname(__filename);
 
 const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
 const readFile = (filename) => fs.readFileSync(getFixturePath(filename));
+
+const contentOfJsonFile = readFile('file1.json');
+const contentOfYamlFile = readFile('file2.yml');
+const extensionJson = path.extname('file1.json');
+const extensionYaml = path.extname('file2.yml');
+const expectedJson = JSON.parse(contentOfJsonFile.toString());
+const expectedYaml = yaml.load(contentOfYamlFile);
