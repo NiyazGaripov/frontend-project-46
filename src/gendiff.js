@@ -8,45 +8,55 @@ const readFile = (filePath) => {
   return fs.readFileSync(fullPath).toString();
 };
 
-const buildDiff = (keys, dataOfFirstFile, dataOfSecondFile) => {
-  let diff = '';
+const makeInternalNode = (name, type, children, state) => ({
+  name,
+  type,
+  children,
+  state,
+});
 
-  keys.forEach((key) => {
+const makeLeafNode = (name, type, value, state) => ({
+  name,
+  type,
+  value,
+  state,
+});
+
+const buildAST = (dataOfFirstFile, dataOfSecondFile) => {
+  const keys = Object.keys({ ...dataOfFirstFile, ...dataOfSecondFile });
+  const sortedKeys = _.sortBy(keys);
+  const tree = [];
+
+  sortedKeys.forEach((key) => {
     const valueFromFirstFile = dataOfFirstFile[key];
     const valueFromSecondFile = dataOfSecondFile[key];
     const hasPropertyInFirstFile = Object.hasOwn(dataOfFirstFile, key);
     const hasPropertyInSecondFile = Object.hasOwn(dataOfSecondFile, key);
 
-    if (hasPropertyInFirstFile
-      && hasPropertyInSecondFile
-      && valueFromFirstFile === valueFromSecondFile) {
-      diff += `    ${key}: ${valueFromFirstFile}\n`;
-    }
-
-    if (hasPropertyInFirstFile
-      && hasPropertyInSecondFile
-      && valueFromFirstFile !== valueFromSecondFile) {
-      diff += `  - ${key}: ${valueFromFirstFile}\n`;
-      diff += `  + ${key}: ${valueFromSecondFile}\n`;
-    }
-
     if (hasPropertyInFirstFile && !hasPropertyInSecondFile) {
-      diff += `  - ${key}: ${valueFromFirstFile}\n`;
-    }
+      const node = makeLeafNode(key, 'leaf', valueFromFirstFile, '-');
+      tree.push(node);
+    } else if (!hasPropertyInFirstFile && hasPropertyInSecondFile) {
+      const node = makeLeafNode(key, 'leaf', valueFromFirstFile, '+');
+      tree.push(node);
+    } else if ((!_.isObject(valueFromFirstFile) || !_.isObject(valueFromSecondFile)) && valueFromFirstFile !== valueFromSecondFile) {
+      const nodeFromFirstFile = makeLeafNode(key, 'leaf', valueFromFirstFile, '-');
+      const nodeFromSecondFile = makeLeafNode(key, 'leaf', valueFromSecondFile, '+');
+      tree.push(nodeFromFirstFile);
+      tree.push(nodeFromSecondFile);
+    } else if (valueFromFirstFile === valueFromSecondFile) {
+      const node = makeLeafNode(key, 'leaf', valueFromFirstFile, 'unchanged');
+      tree.push(node);
+    } else if (_.isObject(valueFromFirstFile) && _.isObject(valueFromSecondFile)) {
+      const children = buildAST(valueFromFirstFile, valueFromSecondFile);
 
-    if (!hasPropertyInFirstFile && hasPropertyInSecondFile) {
-      diff += `  + ${key}: ${valueFromSecondFile}\n`;
+      const node = makeInternalNode(key, 'internal', children,'unchanged');
+
+      tree.push(node);
     }
   });
 
-  return `{\n${diff}}`;
-};
-
-const compareData = (dataOfFirstFile, dataOfSecondFile) => {
-  const keys = Object.keys({ ...dataOfFirstFile, ...dataOfSecondFile });
-  const sortedKeys = _.sortBy(keys);
-
-  return buildDiff(sortedKeys, dataOfFirstFile, dataOfSecondFile);
+  return tree;
 };
 
 const genDiff = (filePath1, filePath2) => {
@@ -59,6 +69,6 @@ const genDiff = (filePath1, filePath2) => {
   const dataOfFirstFile = parse(contentOfFirstFile, extensionOfFirstFile);
   const dataOfSecondFile = parse(contentOfSecondFile, extensionOfSecondFile);
 
-  return compareData(dataOfFirstFile, dataOfSecondFile);
+  return buildAST(dataOfFirstFile, dataOfSecondFile);
 };
 export default genDiff;
