@@ -37,7 +37,7 @@ const buildAST = (dataOfFirstFile, dataOfSecondFile) => {
       const node = makeLeafNode(key, 'leaf', valueFromFirstFile, '-');
       tree.push(node);
     } else if (!hasPropertyInFirstFile && hasPropertyInSecondFile) {
-      const node = makeLeafNode(key, 'leaf', valueFromFirstFile, '+');
+      const node = makeLeafNode(key, 'leaf', valueFromSecondFile, '+');
       tree.push(node);
     } else if ((!_.isObject(valueFromFirstFile) || !_.isObject(valueFromSecondFile)) && valueFromFirstFile !== valueFromSecondFile) {
       const nodeFromFirstFile = makeLeafNode(key, 'leaf', valueFromFirstFile, '-');
