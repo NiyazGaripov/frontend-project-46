@@ -59,7 +59,7 @@ const buildAST = (dataOfFirstFile, dataOfSecondFile) => {
   return tree;
 };
 
-const genDiff = (filePath1, filePath2) => {
+const genDiff = (filePath1, filePath2, format = 'stylish') => {
   const extensionOfFirstFile = path.extname(filePath1);
   const extensionOfSecondFile = path.extname(filePath2);
 
