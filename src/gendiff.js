@@ -45,12 +45,12 @@ const buildAST = (dataOfFirstFile, dataOfSecondFile) => {
       tree.push(nodeFromFirstFile);
       tree.push(nodeFromSecondFile);
     } else if (valueFromFirstFile === valueFromSecondFile) {
-      const node = makeLeafNode(key, 'leaf', valueFromFirstFile, 'unchanged');
+      const node = makeLeafNode(key, 'leaf', valueFromFirstFile, ' ');
       tree.push(node);
     } else if (_.isObject(valueFromFirstFile) && _.isObject(valueFromSecondFile)) {
       const children = buildAST(valueFromFirstFile, valueFromSecondFile);
 
-      const node = makeInternalNode(key, 'internal', children,'unchanged');
+      const node = makeInternalNode(key, 'internal', children,' ');
 
       tree.push(node);
     }
