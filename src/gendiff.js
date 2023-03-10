@@ -82,6 +82,24 @@ const stringify = (value, replacer = ' ', spacesCount = 1) => {
   return iter(value, 1);
 };
 
+const formatting = (tree) => {
+  const diff = tree.map((node) => {
+    const { name, type, children, value, state } = node;
+
+    if (type === 'internal') {
+      return `${state} ${name}: ${formatting(children)}`;
+    }
+
+    if (type === 'leaf') {
+      return `${state} ${name}: ${stringify(value, ' ', 4)}`;
+    }
+
+    return  node;
+  });
+
+  return diff.join('\n');
+};
+
 const genDiff = (filePath1, filePath2, format = 'stylish') => {
   const extensionOfFirstFile = path.extname(filePath1);
   const extensionOfSecondFile = path.extname(filePath2);
