@@ -1,4 +1,4 @@
-import yaml from 'js-yaml';
+import { load } from 'js-yaml';
 
 const EXTENSION = {
   JSON: '.json',
@@ -6,15 +6,10 @@ const EXTENSION = {
   YAML: '.yaml',
 };
 const parse = (data, extension = EXTENSION.JSON) => {
-  let parseMethod;
-
-  if (extension === EXTENSION.JSON) {
-    parseMethod = JSON.parse;
-  } else if (extension === EXTENSION.YML || extension === EXTENSION.YAML) {
-    parseMethod = yaml.load;
+  if (extension === EXTENSION.YML || extension === EXTENSION.YAML) {
+    return load(data);
   }
-
-  return parseMethod(data);
+  return JSON.parse(data);
 };
 
 export default parse;
