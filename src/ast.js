@@ -1,15 +1,7 @@
 import _ from 'lodash';
 
-const makeInternalNode = (name, type, children, state) => ({
-  name,
-  type,
-  children,
-  state,
-});
-
-const makeLeafNode = (name, type, value, state) => ({
-  name,
-  type,
+const makeNode = (key, value, state) => ({
+  key,
   value,
   state,
 });
@@ -26,25 +18,25 @@ const buildAST = (dataOfFirstFile, dataOfSecondFile) => {
     const hasPropertyInSecondFile = Object.hasOwn(dataOfSecondFile, key);
 
     if (hasPropertyInFirstFile && !hasPropertyInSecondFile) {
-      const node = makeLeafNode(key, 'leaf', valueFromFirstFile, '-');
+      const node = makeNode(key, valueFromFirstFile, '-');
       tree.push(node);
     } else if (!hasPropertyInFirstFile && hasPropertyInSecondFile) {
-      const node = makeLeafNode(key, 'leaf', valueFromSecondFile, '+');
+      const node = makeNode(key, valueFromSecondFile, '+');
       tree.push(node);
     } else if (
       (!_.isObject(valueFromFirstFile) || !_.isObject(valueFromSecondFile))
       && valueFromFirstFile !== valueFromSecondFile) {
-      const nodeFromFirstFile = makeLeafNode(key, 'leaf', valueFromFirstFile, '-');
-      const nodeFromSecondFile = makeLeafNode(key, 'leaf', valueFromSecondFile, '+');
+      const nodeFromFirstFile = makeNode(key, valueFromFirstFile, '-');
+      const nodeFromSecondFile = makeNode(key, valueFromSecondFile, '+');
       tree.push(nodeFromFirstFile);
       tree.push(nodeFromSecondFile);
     } else if (valueFromFirstFile === valueFromSecondFile) {
-      const node = makeLeafNode(key, 'leaf', valueFromFirstFile, ' ');
+      const node = makeNode(key, valueFromFirstFile, ' ');
       tree.push(node);
     } else if (_.isObject(valueFromFirstFile) && _.isObject(valueFromSecondFile)) {
       const children = buildAST(valueFromFirstFile, valueFromSecondFile);
 
-      const node = makeInternalNode(key, 'internal', children, ' ');
+      const node = makeNode(key, children, ' ');
 
       tree.push(node);
     }
