@@ -1,46 +1,46 @@
-import _ from "lodash";
+import _ from 'lodash';
 
-const stringify = (value, replacer = ' ', spacesCount = 1) => {
-  const iter = (currentValue, depth) => {
-    if (!_.isObject(currentValue)) {
-      return `${currentValue}`;
-    }
+const stringify = (node, depth) => {
+  if (!_.isObject(node)) {
+    return `${node}`;
+  }
 
-    const indentSize = depth * spacesCount;
-    const currentIndent = replacer.repeat(indentSize);
-    const bracketIndent = replacer.repeat(indentSize - spacesCount);
-    const lines = Object
-      .entries(currentValue)
-      .map(([key, val]) => `${currentIndent}${key}: ${iter(val, depth + 1)}`);
+  const indentSize = depth * 2;
+  const currentIndent = ' '.repeat(indentSize + 2);
+  const bracketIndent = ' '.repeat(indentSize - 2);
+  const lines = Object
+    .entries(node)
+    .map(([key, value]) => `${currentIndent}${key}: ${stringify(value, depth + 2)}`);
 
-    return [
-      '{',
-      ...lines,
-      `${bracketIndent}}`,
-    ].join('\n');
-  };
-
-  return iter(value, 1);
+  return ['{', ...lines, `${bracketIndent}}`].join('\n');
 };
 
 const formatting = (tree) => {
-  const diff = tree.map((node) => {
-    const {
-      name, type, children, value, state,
-    } = node;
-
-    if (type === 'internal') {
-      return `${state} ${name}: ${formatting(children)}`;
+  const iter = (node, depth) => {
+    if (!_.isObject(node)) {
+      return `${node}`;
     }
 
-    if (type === 'leaf') {
-      return `${state} ${name}: ${stringify(value, ' ', 4)}`;
+    const indentSize = depth * 2;
+    const currentIndent = ' '.repeat(indentSize);
+    const bracketIndent = ' '.repeat(indentSize - 2);
+
+    if (!_.isArray(node)) {
+      return stringify(node, depth);
     }
 
-    return node;
-  });
+    const lines = node.map(({ key, value, state }) => {
+      if (String(value).length) {
+        return `${currentIndent}${state} ${key}: ${iter(value, depth + 2)}`;
+      }
 
-  return diff.join('\n');
+      return `${currentIndent}${state} ${key}:`;
+    });
+
+    return ['{', ...lines, `${bracketIndent}}`].join('\n');
+  };
+
+  return iter(tree, 1);
 };
 
 export default formatting;
