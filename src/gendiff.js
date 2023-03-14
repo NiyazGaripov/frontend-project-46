@@ -21,6 +21,6 @@ const genDiff = (filePath1, filePath2, format = 'stylish') => {
 
   const ast = buildAST(dataOfFirstFile, dataOfSecondFile);
 
-  return formatting(ast);
+  return formatting(ast, format);
 };
 export default genDiff;
