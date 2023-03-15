@@ -14,12 +14,12 @@ const jsonFilePath1 = getFixturePath('file1.json');
 const jsonFilePath2 = getFixturePath('file2.json');
 const yamlFilePath1 = getFixturePath('file1.yml');
 const yamlFilePath2 = getFixturePath('file2.yml');
-const expected = readFile('expected.txt').toString().trim();
+const expectedStylish = readFile('expected-stylish.txt').toString().trim();
 
 test('should to get diff between two files', () => {
-  expect(genDiff(jsonFilePath1, jsonFilePath2)).toStrictEqual(expected);
-  expect(genDiff(yamlFilePath1, yamlFilePath2)).toStrictEqual(expected);
-  expect(genDiff(jsonFilePath1, yamlFilePath2)).toStrictEqual(expected);
+  expect(genDiff(jsonFilePath1, jsonFilePath2)).toStrictEqual(expectedStylish);
+  expect(genDiff(yamlFilePath1, yamlFilePath2)).toStrictEqual(expectedStylish);
+  expect(genDiff(jsonFilePath1, yamlFilePath2)).toStrictEqual(expectedStylish);
 });
 
 test('should to get exception', () => {
