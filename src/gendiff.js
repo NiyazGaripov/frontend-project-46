@@ -9,17 +9,18 @@ const readFile = (filePath) => {
   return fs.readFileSync(fullPath).toString();
 };
 
+const getDataFromFile = (filePath) => {
+  const fileContents = readFile(filePath);
+  const fileExtension = path.extname(filePath);
+
+  return parse(fileContents, fileExtension);
+};
+
 const genDiff = (filePath1, filePath2, format = 'stylish') => {
-  const extensionOfFirstFile = path.extname(filePath1);
-  const extensionOfSecondFile = path.extname(filePath2);
+  const dataFromFirstFile = getDataFromFile(filePath1);
+  const dataFromSecondFile = getDataFromFile(filePath2);
 
-  const contentOfFirstFile = readFile(filePath1);
-  const contentOfSecondFile = readFile(filePath2);
-
-  const dataOfFirstFile = parse(contentOfFirstFile, extensionOfFirstFile);
-  const dataOfSecondFile = parse(contentOfSecondFile, extensionOfSecondFile);
-
-  const ast = buildAST(dataOfFirstFile, dataOfSecondFile);
+  const ast = buildAST(dataFromFirstFile, dataFromSecondFile);
 
   return formatting(ast, format);
 };
