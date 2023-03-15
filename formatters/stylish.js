@@ -15,7 +15,7 @@ const stringify = (node, depth) => {
   return ['{', ...lines, `${bracketIndent}}`].join('\n');
 };
 
-const formatting = (tree) => {
+const getStringStylishFormat = (tree) => {
   const iter = (node, depth) => {
     if (!_.isObject(node)) {
       return `${node}`;
@@ -43,4 +43,4 @@ const formatting = (tree) => {
   return iter(tree, 1);
 };
 
-export default formatting;
+export default getStringStylishFormat;
