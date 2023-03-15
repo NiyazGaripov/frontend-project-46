@@ -22,6 +22,12 @@ test('should to get diff between two files', () => {
   expect(genDiff(jsonFilePath1, yamlFilePath2)).toStrictEqual(expectedStylish);
 });
 
+test('should to get diff between two files in stylish format', () => {
+  expect(genDiff(jsonFilePath1, jsonFilePath2, 'stylish')).toStrictEqual(expectedStylish);
+  expect(genDiff(yamlFilePath1, yamlFilePath2, 'stylish')).toStrictEqual(expectedStylish);
+  expect(genDiff(jsonFilePath1, yamlFilePath2, 'stylish')).toStrictEqual(expectedStylish);
+});
+
 test('should to get exception', () => {
   expect(() => genDiff('', '')).toThrow();
   expect(() => genDiff('')).toThrow();
