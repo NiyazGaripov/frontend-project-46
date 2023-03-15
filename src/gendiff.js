@@ -2,7 +2,7 @@ import path from 'path';
 import fs from 'fs';
 import parse from './parsers.js';
 import buildAST from './ast.js';
-import formatting from './formatters.js';
+import getDataInSpecifiedFormat from '../formatters/index.js';
 
 const readFile = (filePath) => {
   const fullPath = path.resolve(process.cwd(), filePath);
@@ -22,6 +22,6 @@ const genDiff = (filePath1, filePath2, format = 'stylish') => {
 
   const ast = buildAST(dataFromFirstFile, dataFromSecondFile);
 
-  return formatting(ast, format);
+  return getDataInSpecifiedFormat(ast, format);
 };
 export default genDiff;
