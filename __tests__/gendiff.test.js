@@ -36,6 +36,7 @@ test('should to get diff between two files in plain format', () => {
 });
 
 test('should to get exception', () => {
+  expect(() => genDiff('', '', 'plain')).toThrow();
   expect(() => genDiff('', '')).toThrow();
   expect(() => genDiff('')).toThrow();
   expect(() => genDiff()).toThrow();
