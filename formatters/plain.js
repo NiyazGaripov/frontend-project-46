@@ -17,6 +17,32 @@ const transformValue = (nodeValue) => {
   return nodeValue;
 };
 
+const getUpdatedStructure = (path, nodes) => {
+  if (!_.isObject(nodes)) {
+    return '';
+  }
+
+  return nodes.flatMap((node) => {
+    const { nodeKey, nodeValue, nodeState } = node;
+    const property = `${path}.${nodeKey}`;
+
+    switch (nodeState) {
+      case '-':
+        return getTextWithRemovedProperty(property);
+      case '+':
+        return getTextWithAddedProperty(property, transformValue(nodeValue));
+      case ' ':
+        return getUpdatedStructure(property, nodeValue);
+      default:
+        if (Array.isArray(node)) {
+          const [{ nodeValue: oldValue }, { nodeKey: newKey, nodeValue: newValue }] = node;
+          return getTextWithUpdatedProperty(`${path}.${newKey}`, transformValue(oldValue), transformValue(newValue));
+        }
+        return node;
+    }
+  });
+};
+
 const getStringPlainFormat = (tree) => {
   const iter = (node, path = '') => node.reduce((lines, { nodeKey, nodeValue, nodeState }) => {
     const propertyPath = createPropertyPath(path, nodeKey);
