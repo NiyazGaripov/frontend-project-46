@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 const getStringPlainFormat = (tree) => {
   const iter = (node, path = '') => node.reduce((lines, { nodeKey, nodeValue, nodeState }) => {
     const propertyPath = createPropertyPath(path, nodeKey);
