@@ -1,9 +1,9 @@
 import _ from 'lodash';
 
-const makeNode = (key, value, state) => ({
-  key,
-  value,
-  state,
+const makeNode = (nodeKey, nodeValue, nodeState) => ({
+  nodeKey,
+  nodeValue,
+  nodeState,
 });
 
 const buildAST = (dataOfFirstFile, dataOfSecondFile) => {
