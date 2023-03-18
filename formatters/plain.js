@@ -5,6 +5,18 @@ const getTextWithAddedProperty = (property, value) => `Property '${property}' wa
 const getTextWithUpdatedProperty = (property, oldValue, newValue) => `Property '${property}' was updated. From ${oldValue} to ${newValue}`;
 const createPropertyPath = (path, key) => (path === '' ? key : `${path}.${key}`);
 
+const transformValue = (nodeValue) => {
+  if (_.isString(nodeValue)) {
+    return `'${nodeValue}'`;
+  }
+
+  if (_.isObject(nodeValue)) {
+    return '[complex value]';
+  }
+
+  return nodeValue;
+};
+
 const getStringPlainFormat = (tree) => {
   const iter = (node, path = '') => node.reduce((lines, { nodeKey, nodeValue, nodeState }) => {
     const propertyPath = createPropertyPath(path, nodeKey);
