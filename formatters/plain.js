@@ -1,5 +1,9 @@
 import _ from 'lodash';
 
+const getTextWithRemovedProperty = (property) => `Property '${property}' was removed`;
+const getTextWithAddedProperty = (property, value) => `Property '${property}' was added with value: ${value}`;
+const getTextWithUpdatedProperty = (property, oldValue, newValue) => `Property '${property}' was updated. From ${oldValue} to ${newValue}`;
+
 const getStringPlainFormat = (tree) => {
   const iter = (node, path = '') => node.reduce((lines, { nodeKey, nodeValue, nodeState }) => {
     const propertyPath = createPropertyPath(path, nodeKey);
