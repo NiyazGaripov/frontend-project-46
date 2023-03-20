@@ -19,24 +19,25 @@ const stringify = (node, depth) => {
 
 const getStringStylishFormat = (tree) => {
   const iter = (node, depth) => {
-    if (!_.isObject(node)) {
-      return `${node}`;
-    }
-
     const indentSize = depth * DEFAULT_INDENT;
     const currentIndent = ' '.repeat(indentSize);
     const bracketIndent = ' '.repeat(indentSize - DEFAULT_INDENT);
 
-    if (!_.isArray(node)) {
-      return stringify(node, depth);
-    }
-
-    const lines = node.map(({ nodeKey, nodeValue, nodeState }) => {
-      if (String(nodeValue).length) {
-        return `${currentIndent}${nodeState} ${nodeKey}: ${iter(nodeValue, depth + DEFAULT_INDENT)}`;
+    const lines = node.map(({ key, oldValue, newValue, children, type }) => {
+      switch (type) {
+        case 'removed':
+          return `${currentIndent}- ${key}: ${stringify(newValue, depth + DEFAULT_INDENT)}`;
+        case 'added':
+          return `${currentIndent}+ ${key}: ${stringify(newValue, depth + DEFAULT_INDENT)}`;
+        case 'updated':
+          const removedString = `${currentIndent}- ${key}: ${stringify(oldValue, depth + DEFAULT_INDENT)}`;
+          const addedString = `${currentIndent}+ ${key}: ${stringify(newValue, depth + DEFAULT_INDENT)}`;
+          return `${removedString}\n${addedString}`;
+        case 'nested':
+          return `${currentIndent}  ${key}: ${iter(children, depth + DEFAULT_INDENT)}`;
+        default:
+          return `${currentIndent}  ${key}: ${stringify(newValue, depth + DEFAULT_INDENT)}`;
       }
-
-      return `${currentIndent}${nodeState} ${nodeKey}:`;
     });
 
     return ['{', ...lines, `${bracketIndent}}`].join('\n');
