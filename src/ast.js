@@ -1,47 +1,30 @@
 import _ from 'lodash';
 
-const makeNode = (nodeKey, nodeValue, nodeState) => ({
-  nodeKey,
-  nodeValue,
-  nodeState,
-});
-
 const buildAST = (dataOfFirstFile, dataOfSecondFile) => {
   const keys = Object.keys({ ...dataOfFirstFile, ...dataOfSecondFile });
   const sortedKeys = _.sortBy(keys);
-  const tree = [];
 
-  sortedKeys.forEach((key) => {
+  return sortedKeys.map((key) => {
     const valueFromFirstFile = dataOfFirstFile[key];
     const valueFromSecondFile = dataOfSecondFile[key];
     const hasPropertyInFirstFile = Object.hasOwn(dataOfFirstFile, key);
     const hasPropertyInSecondFile = Object.hasOwn(dataOfSecondFile, key);
 
-    if (hasPropertyInFirstFile && !hasPropertyInSecondFile) {
-      const node = makeNode(key, valueFromFirstFile, '-');
-      tree.push(node);
-    } else if (!hasPropertyInFirstFile && hasPropertyInSecondFile) {
-      const node = makeNode(key, valueFromSecondFile, '+');
-      tree.push(node);
+    if (!hasPropertyInSecondFile) {
+      return { key, newValue: valueFromFirstFile, type: 'removed'};
+    } else if (!hasPropertyInFirstFile) {
+      return { key, newValue: valueFromSecondFile, type: 'added'};
     } else if (
       (!_.isObject(valueFromFirstFile) || !_.isObject(valueFromSecondFile))
       && valueFromFirstFile !== valueFromSecondFile) {
-      const nodeFromFirstFile = makeNode(key, valueFromFirstFile, '-');
-      const nodeFromSecondFile = makeNode(key, valueFromSecondFile, '+');
-      tree.push([nodeFromFirstFile, nodeFromSecondFile]);
+      return { key, oldValue: valueFromFirstFile, newValue: valueFromSecondFile, type: 'updated'};
     } else if (valueFromFirstFile === valueFromSecondFile) {
-      const node = makeNode(key, valueFromFirstFile, ' ');
-      tree.push(node);
+      return { key, newValue: valueFromFirstFile, type: 'unchanged'};
     } else if (_.isObject(valueFromFirstFile) && _.isObject(valueFromSecondFile)) {
       const children = buildAST(valueFromFirstFile, valueFromSecondFile);
-
-      const node = makeNode(key, children, ' ');
-
-      tree.push(node);
+      return { key, children, type: 'nested'};
     }
   });
-
-  return tree;
 };
 
 export default buildAST;
