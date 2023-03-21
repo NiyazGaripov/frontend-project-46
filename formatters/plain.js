@@ -18,7 +18,9 @@ const transformValue = (nodeValue) => {
 };
 
 const getStringPlainFormat = (tree) => {
-  const iter = (ast, path = '') => ast.flatMap(({ key, oldValue, newValue, children, type }) => {
+  const iter = (ast, path = '') => ast.flatMap(({
+    key, oldValue, newValue, children, type,
+  }) => {
     const propertyPath = createPropertyPath(path, key);
 
     switch (type) {
@@ -27,7 +29,11 @@ const getStringPlainFormat = (tree) => {
       case 'added':
         return getTextWithAddedProperty(propertyPath, transformValue(newValue));
       case 'updated':
-        return getTextWithUpdatedProperty(propertyPath, transformValue(oldValue), transformValue(newValue));
+        return getTextWithUpdatedProperty(
+          propertyPath,
+          transformValue(oldValue),
+          transformValue(newValue),
+        );
       case 'nested':
         return iter(children, `${propertyPath}`);
       default:
