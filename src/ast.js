@@ -17,6 +17,7 @@ const buildAST = (dataOfFirstFile, dataOfSecondFile) => {
     if (!hasPropertyInFirstFile) {
       return { key, newValue: valueFromSecondFile, type: 'added' };
     }
+
     if (
       (!_.isObject(valueFromFirstFile) || !_.isObject(valueFromSecondFile))
       && valueFromFirstFile !== valueFromSecondFile) {
