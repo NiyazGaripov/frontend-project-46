@@ -17,52 +17,25 @@ const transformValue = (nodeValue) => {
   return nodeValue;
 };
 
-const getUpdatedStructure = (path, nodes) => {
-  if (!_.isObject(nodes)) {
-    return '';
-  }
-
-  return nodes.flatMap((node) => {
-    const { nodeKey, nodeValue, nodeState } = node;
-    const property = `${path}.${nodeKey}`;
-
-    switch (nodeState) {
-      case '-':
-        return getTextWithRemovedProperty(property);
-      case '+':
-        return getTextWithAddedProperty(property, transformValue(nodeValue));
-      case ' ':
-        return getUpdatedStructure(property, nodeValue);
-      default:
-        if (Array.isArray(node)) {
-          const [{ nodeValue: oldValue }, { nodeKey: newKey, nodeValue: newValue }] = node;
-          return getTextWithUpdatedProperty(`${path}.${newKey}`, transformValue(oldValue), transformValue(newValue));
-        }
-        return node;
-    }
-  });
-};
-
 const getStringPlainFormat = (tree) => {
-  const iter = (node, path = '') => node.reduce((lines, { nodeKey, nodeValue, nodeState }) => {
-    const propertyPath = createPropertyPath(path, nodeKey);
+  const iter = (ast, path = '') => ast.flatMap(({ key, oldValue, newValue, children, type }) => {
+    const propertyPath = createPropertyPath(path, key);
 
-    if (Array.isArray(nodeValue)) {
-      return [...lines, ...getUpdatedStructure(propertyPath, nodeValue).filter((element) => element !== '')];
+    switch (type) {
+      case 'removed':
+        return getTextWithRemovedProperty(propertyPath);
+      case 'added':
+        return getTextWithAddedProperty(propertyPath, transformValue(newValue));
+      case 'updated':
+        return getTextWithUpdatedProperty(propertyPath, transformValue(oldValue), transformValue(newValue));
+      case 'nested':
+        return iter(children, `${propertyPath}`);
+      default:
+        return null;
     }
+  }).filter((node) => node !== null).join('\n');
 
-    if (nodeState === '-') {
-      return [...lines, getTextWithRemovedProperty(nodeKey)];
-    }
-
-    if (nodeState === '+') {
-      return [...lines, getTextWithAddedProperty(nodeKey, transformValue(nodeValue))];
-    }
-
-    return [...lines, ...iter(nodeValue, `${propertyPath}.${nodeKey}`)];
-  }, []);
-
-  return iter(tree).filter((item) => item !== '').join('\n');
+  return iter(tree);
 };
 
 export default getStringPlainFormat;
