@@ -22,7 +22,7 @@ Gendiff is a CLI tool that defines the difference between two files. This mechan
 
 ### Example of the use
 
-[![asciicast](https://asciinema.org/a/BFXEmvtmiZmhbwmEkxYA00NFE.svg)](https://asciinema.org/a/BFXEmvtmiZmhbwmEkxYA00NFE)
+[![asciicast](https://asciinema.org/a/zflcnuUZEuUOmiQKasN8CIozt.svg)](https://asciinema.org/a/zflcnuUZEuUOmiQKasN8CIozt)
 ```
 # plain format
 gendiff --format plain path/to/file.yml another/path/file.json
