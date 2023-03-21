@@ -11,19 +11,26 @@ const buildAST = (dataOfFirstFile, dataOfSecondFile) => {
     const hasPropertyInSecondFile = Object.hasOwn(dataOfSecondFile, key);
 
     if (!hasPropertyInSecondFile) {
-      return { key, newValue: valueFromFirstFile, type: 'removed'};
-    } else if (!hasPropertyInFirstFile) {
-      return { key, newValue: valueFromSecondFile, type: 'added'};
-    } else if (
+      return { key, newValue: valueFromFirstFile, type: 'removed' };
+    }
+
+    if (!hasPropertyInFirstFile) {
+      return { key, newValue: valueFromSecondFile, type: 'added' };
+    }
+    if (
       (!_.isObject(valueFromFirstFile) || !_.isObject(valueFromSecondFile))
       && valueFromFirstFile !== valueFromSecondFile) {
-      return { key, oldValue: valueFromFirstFile, newValue: valueFromSecondFile, type: 'updated'};
-    } else if (valueFromFirstFile === valueFromSecondFile) {
-      return { key, newValue: valueFromFirstFile, type: 'unchanged'};
-    } else if (_.isObject(valueFromFirstFile) && _.isObject(valueFromSecondFile)) {
-      const children = buildAST(valueFromFirstFile, valueFromSecondFile);
-      return { key, children, type: 'nested'};
+      return {
+        key, oldValue: valueFromFirstFile, newValue: valueFromSecondFile, type: 'updated',
+      };
     }
+
+    if (_.isObject(valueFromFirstFile) && _.isObject(valueFromSecondFile)) {
+      const children = buildAST(valueFromFirstFile, valueFromSecondFile);
+      return { key, children, type: 'nested' };
+    }
+
+    return { key, newValue: valueFromFirstFile, type: 'unchanged' };
   });
 };
 

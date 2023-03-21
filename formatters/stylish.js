@@ -23,16 +23,19 @@ const getStringStylishFormat = (tree) => {
     const currentIndent = ' '.repeat(indentSize);
     const bracketIndent = ' '.repeat(indentSize - DEFAULT_INDENT);
 
-    const lines = node.map(({ key, oldValue, newValue, children, type }) => {
+    const lines = node.map(({
+      key, oldValue, newValue, children, type,
+    }) => {
       switch (type) {
         case 'removed':
           return `${currentIndent}- ${key}: ${stringify(newValue, depth + DEFAULT_INDENT)}`;
         case 'added':
           return `${currentIndent}+ ${key}: ${stringify(newValue, depth + DEFAULT_INDENT)}`;
-        case 'updated':
+        case 'updated': {
           const removedString = `${currentIndent}- ${key}: ${stringify(oldValue, depth + DEFAULT_INDENT)}`;
           const addedString = `${currentIndent}+ ${key}: ${stringify(newValue, depth + DEFAULT_INDENT)}`;
           return `${removedString}\n${addedString}`;
+        }
         case 'nested':
           return `${currentIndent}  ${key}: ${iter(children, depth + DEFAULT_INDENT)}`;
         default:
