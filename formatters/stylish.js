@@ -32,9 +32,9 @@ const getStringStylishFormat = (tree) => {
         case 'added':
           return `${currentIndent}+ ${key}: ${stringify(newValue, depth + DEFAULT_INDENT)}`;
         case 'updated': {
-          const removedString = `${currentIndent}- ${key}: ${stringify(oldValue, depth + DEFAULT_INDENT)}`;
-          const addedString = `${currentIndent}+ ${key}: ${stringify(newValue, depth + DEFAULT_INDENT)}`;
-          return `${removedString}\n${addedString}`;
+          const removedData = `${currentIndent}- ${key}: ${stringify(oldValue, depth + DEFAULT_INDENT)}`;
+          const addedData = `${currentIndent}+ ${key}: ${stringify(newValue, depth + DEFAULT_INDENT)}`;
+          return `${removedData}\n${addedData}`;
         }
         case 'nested':
           return `${currentIndent}  ${key}: ${iter(children, depth + DEFAULT_INDENT)}`;
