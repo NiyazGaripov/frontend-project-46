@@ -2,10 +2,14 @@ import getStringStylishFormat from './stylish.js';
 import getStringPlainFormat from './plain.js';
 
 const getDataInSpecifiedFormat = (data, format) => {
-  if (format === 'plain') {
-    return getStringPlainFormat(data);
+  switch (format) {
+    case 'plain':
+      return getStringPlainFormat(data);
+    case 'json':
+      return JSON.stringify(data);
+    default:
+      return getStringStylishFormat(data);
   }
-  return getStringStylishFormat(data);
 };
 
 export default getDataInSpecifiedFormat;
