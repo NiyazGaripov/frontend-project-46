@@ -16,6 +16,7 @@ const yamlFilePath1 = getFixturePath('file1.yml');
 const yamlFilePath2 = getFixturePath('file2.yml');
 const expectedStylish = readFile('expected-stylish.txt').toString().trim();
 const expectedPlain = readFile('expected-plain.txt').toString().trim();
+const expectedJson = readFile('expected-json.txt').toString().trim();
 
 test('should to get diff between two files', () => {
   expect(genDiff(jsonFilePath1, jsonFilePath2)).toStrictEqual(expectedStylish);
@@ -33,6 +34,12 @@ test('should to get diff between two files in plain format', () => {
   expect(genDiff(jsonFilePath1, jsonFilePath2, 'plain')).toStrictEqual(expectedPlain);
   expect(genDiff(yamlFilePath1, yamlFilePath2, 'plain')).toStrictEqual(expectedPlain);
   expect(genDiff(jsonFilePath1, yamlFilePath2, 'plain')).toStrictEqual(expectedPlain);
+});
+
+test('should to get diff between two files in json format', () => {
+  expect(genDiff(jsonFilePath1, jsonFilePath2, 'json')).toStrictEqual(expectedJson);
+  expect(genDiff(yamlFilePath1, yamlFilePath2, 'json')).toStrictEqual(expectedJson);
+  expect(genDiff(jsonFilePath1, yamlFilePath2, 'json')).toStrictEqual(expectedJson);
 });
 
 test('should to get exception', () => {
