@@ -9,14 +9,15 @@ const __dirname = dirname(__filename);
 
 const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
 const readFile = (filename) => fs.readFileSync(getFixturePath(filename));
+const getExpectedResult = (filename) => readFile(filename).toString().trim();
 
-const jsonFilePath1 = getFixturePath('file1.json');
-const jsonFilePath2 = getFixturePath('file2.json');
-const yamlFilePath1 = getFixturePath('file1.yml');
-const yamlFilePath2 = getFixturePath('file2.yml');
-const expectedStylish = readFile('expected-stylish.txt').toString().trim();
-const expectedPlain = readFile('expected-plain.txt').toString().trim();
-const expectedJson = readFile('expected-json.txt').toString().trim();
+const jsonPath1 = getFixturePath('file1.json');
+const jsonPath2 = getFixturePath('file2.json');
+const yamlPath1 = getFixturePath('file1.yml');
+const yamlPath2 = getFixturePath('file2.yml');
+const expectedStylish = getExpectedResult('expected-stylish.txt');
+const expectedPlain = getExpectedResult('expected-plain.txt');
+const expectedJson = getExpectedResult('expected-json.txt');
 
 const testCases = [
   { format: 'stylish', expected: expectedStylish },
@@ -26,9 +27,9 @@ const testCases = [
 ];
 
 test.each(testCases)('should to get diff between two files', ({ format, expected }) => {
-  expect(genDiff(jsonFilePath1, jsonFilePath2, format)).toStrictEqual(expected);
-  expect(genDiff(yamlFilePath1, yamlFilePath2, format)).toStrictEqual(expected);
-  expect(genDiff(jsonFilePath1, yamlFilePath2, format)).toStrictEqual(expected);
+  expect(genDiff(jsonPath1, jsonPath2, format)).toStrictEqual(expected);
+  expect(genDiff(yamlPath1, yamlPath2, format)).toStrictEqual(expected);
+  expect(genDiff(jsonPath1, yamlPath2, format)).toStrictEqual(expected);
 });
 
 test('should to get exception', () => {
