@@ -18,28 +18,17 @@ const expectedStylish = readFile('expected-stylish.txt').toString().trim();
 const expectedPlain = readFile('expected-plain.txt').toString().trim();
 const expectedJson = readFile('expected-json.txt').toString().trim();
 
-test('should to get diff between two files', () => {
-  expect(genDiff(jsonFilePath1, jsonFilePath2)).toStrictEqual(expectedStylish);
-  expect(genDiff(yamlFilePath1, yamlFilePath2)).toStrictEqual(expectedStylish);
-  expect(genDiff(jsonFilePath1, yamlFilePath2)).toStrictEqual(expectedStylish);
-});
+const testCases = [
+  { format: 'stylish', expected: expectedStylish },
+  { format: 'plain', expected: expectedPlain },
+  { format: 'json', expected: expectedJson },
+  { format: '', expected: expectedStylish },
+];
 
-test('should to get diff between two files in stylish format', () => {
-  expect(genDiff(jsonFilePath1, jsonFilePath2, 'stylish')).toStrictEqual(expectedStylish);
-  expect(genDiff(yamlFilePath1, yamlFilePath2, 'stylish')).toStrictEqual(expectedStylish);
-  expect(genDiff(jsonFilePath1, yamlFilePath2, 'stylish')).toStrictEqual(expectedStylish);
-});
-
-test('should to get diff between two files in plain format', () => {
-  expect(genDiff(jsonFilePath1, jsonFilePath2, 'plain')).toStrictEqual(expectedPlain);
-  expect(genDiff(yamlFilePath1, yamlFilePath2, 'plain')).toStrictEqual(expectedPlain);
-  expect(genDiff(jsonFilePath1, yamlFilePath2, 'plain')).toStrictEqual(expectedPlain);
-});
-
-test('should to get diff between two files in json format', () => {
-  expect(genDiff(jsonFilePath1, jsonFilePath2, 'json')).toStrictEqual(expectedJson);
-  expect(genDiff(yamlFilePath1, yamlFilePath2, 'json')).toStrictEqual(expectedJson);
-  expect(genDiff(jsonFilePath1, yamlFilePath2, 'json')).toStrictEqual(expectedJson);
+test.each(testCases)('should to get diff between two files', ({ format, expected }) => {
+  expect(genDiff(jsonFilePath1, jsonFilePath2, format)).toStrictEqual(expected);
+  expect(genDiff(yamlFilePath1, yamlFilePath2, format)).toStrictEqual(expected);
+  expect(genDiff(jsonFilePath1, yamlFilePath2, format)).toStrictEqual(expected);
 });
 
 test('should to get exception', () => {
