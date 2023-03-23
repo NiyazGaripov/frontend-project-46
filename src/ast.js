@@ -1,14 +1,14 @@
 import _ from 'lodash';
 
-const buildAST = (dataOfFirstFile, dataOfSecondFile) => {
-  const keys = Object.keys({ ...dataOfFirstFile, ...dataOfSecondFile });
+const buildAST = (data1, data2) => {
+  const keys = Object.keys({ ...data1, ...data2 });
   const sortedKeys = _.sortBy(keys);
 
   return sortedKeys.map((key) => {
-    const valueFromFirstFile = dataOfFirstFile[key];
-    const valueFromSecondFile = dataOfSecondFile[key];
-    const hasPropertyInFirstFile = Object.hasOwn(dataOfFirstFile, key);
-    const hasPropertyInSecondFile = Object.hasOwn(dataOfSecondFile, key);
+    const valueFromFirstFile = data1[key];
+    const valueFromSecondFile = data2[key];
+    const hasPropertyInFirstFile = Object.hasOwn(data1, key);
+    const hasPropertyInSecondFile = Object.hasOwn(data2, key);
 
     if (!hasPropertyInSecondFile) {
       return { key, newValue: valueFromFirstFile, type: 'removed' };
