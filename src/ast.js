@@ -1,10 +1,7 @@
 import _ from 'lodash';
 
-const buildAST = (data1, data2) => {
-  const keys = Object.keys({ ...data1, ...data2 });
-  const sortedKeys = _.sortBy(keys);
-
-  return sortedKeys.map((key) => {
+const buildAST = (data1, data2) => _.sortBy(_.union(Object.keys(data1), Object.keys(data2)))
+  .map((key) => {
     const valueFromFirstFile = data1[key];
     const valueFromSecondFile = data2[key];
     const hasPropertyInFirstFile = Object.hasOwn(data1, key);
@@ -33,6 +30,5 @@ const buildAST = (data1, data2) => {
 
     return { key, newValue: valueFromFirstFile, type: 'unchanged' };
   });
-};
 
 export default buildAST;
