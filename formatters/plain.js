@@ -10,7 +10,7 @@ const transformValue = (nodeValue) => {
     return `'${nodeValue}'`;
   }
 
-  if (_.isObject(nodeValue)) {
+  if (_.isPlainObject(nodeValue)) {
     return '[complex value]';
   }
 

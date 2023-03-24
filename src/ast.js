@@ -14,14 +14,14 @@ const buildAST = (data1, data2) => _.sortBy(_.union(Object.keys(data1), Object.k
     }
 
     if (
-      (!_.isObject(valueFromData1) || !_.isObject(valueFromData2))
+      (!_.isPlainObject(valueFromData1) || !_.isPlainObject(valueFromData2))
       && valueFromData1 !== valueFromData2) {
       return {
         key, oldValue: valueFromData1, newValue: valueFromData2, type: 'updated',
       };
     }
 
-    if (_.isObject(valueFromData1) && _.isObject(valueFromData2)) {
+    if (_.isPlainObject(valueFromData1) && _.isPlainObject(valueFromData2)) {
       const children = buildAST(valueFromData1, valueFromData2);
       return { key, children, type: 'nested' };
     }

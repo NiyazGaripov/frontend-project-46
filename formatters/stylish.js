@@ -3,7 +3,7 @@ import _ from 'lodash';
 const DEFAULT_INDENT = 2;
 
 const stringify = (node, depth) => {
-  if (!_.isObject(node)) {
+  if (!_.isPlainObject(node)) {
     return `${node}`;
   }
 
