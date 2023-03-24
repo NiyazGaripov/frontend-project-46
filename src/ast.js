@@ -4,14 +4,12 @@ const buildAST = (data1, data2) => _.sortBy(_.union(Object.keys(data1), Object.k
   .map((key) => {
     const valueFromFirstFile = data1[key];
     const valueFromSecondFile = data2[key];
-    const hasPropertyInFirstFile = Object.hasOwn(data1, key);
-    const hasPropertyInSecondFile = Object.hasOwn(data2, key);
 
-    if (!hasPropertyInSecondFile) {
+    if (!_.has(data2, key)) {
       return { key, newValue: valueFromFirstFile, type: 'removed' };
     }
 
-    if (!hasPropertyInFirstFile) {
+    if (!_.has(data1, key)) {
       return { key, newValue: valueFromSecondFile, type: 'added' };
     }
 
