@@ -9,7 +9,7 @@ const readFile = (filePath) => {
   return fs.readFileSync(fullPath).toString();
 };
 
-const getDataFromFile = (filePath) => {
+const getData = (filePath) => {
   const fileContents = readFile(filePath);
   const fileExtension = path.extname(filePath);
 
@@ -17,10 +17,10 @@ const getDataFromFile = (filePath) => {
 };
 
 const genDiff = (filePath1, filePath2, format = 'stylish') => {
-  const dataFromFirstFile = getDataFromFile(filePath1);
-  const dataFromSecondFile = getDataFromFile(filePath2);
+  const data1 = getData(filePath1);
+  const data2 = getData(filePath2);
 
-  const ast = buildAST(dataFromFirstFile, dataFromSecondFile);
+  const ast = buildAST(data1, data2);
 
   return getDataInSpecifiedFormat(ast, format);
 };
