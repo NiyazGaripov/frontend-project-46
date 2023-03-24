@@ -2,7 +2,7 @@ import path from 'path';
 import fs from 'fs';
 import parse from './parsers.js';
 import buildAST from './ast.js';
-import getDataInSpecifiedFormat from '../formatters/index.js';
+import getDataInSpecifiedFormat from './formatters/index.js';
 
 const readFile = (filePath) => {
   const fullPath = path.resolve(process.cwd(), filePath);
