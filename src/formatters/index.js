@@ -7,8 +7,10 @@ const getDataInSpecifiedFormat = (data, format) => {
       return getStringPlainFormat(data);
     case 'json':
       return JSON.stringify(data);
-    default:
+    case 'stylish':
       return getStringStylishFormat(data);
+    default:
+      throw new Error(`Please add output format: '${format}' is unknown format type!`);
   }
 };
 
