@@ -13,17 +13,15 @@ const buildAST = (data1, data2) => _.sortBy(_.union(Object.keys(data1), Object.k
       return { key, newValue: valueFromData2, type: 'added' };
     }
 
-    if (
-      (!_.isPlainObject(valueFromData1) || !_.isPlainObject(valueFromData2))
-      && valueFromData1 !== valueFromData2) {
-      return {
-        key, oldValue: valueFromData1, newValue: valueFromData2, type: 'updated',
-      };
-    }
-
     if (_.isPlainObject(valueFromData1) && _.isPlainObject(valueFromData2)) {
       const children = buildAST(valueFromData1, valueFromData2);
       return { key, children, type: 'nested' };
+    }
+
+    if (!_.isEqual(valueFromData1, valueFromData2)) {
+      return {
+        key, oldValue: valueFromData1, newValue: valueFromData2, type: 'updated',
+      };
     }
 
     return { key, newValue: valueFromData1, type: 'unchanged' };
