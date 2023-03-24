@@ -23,7 +23,6 @@ const testCases = [
   { format: 'stylish', expected: expectedStylish },
   { format: 'plain', expected: expectedPlain },
   { format: 'json', expected: expectedJson },
-  { format: '', expected: expectedStylish },
 ];
 
 test.each(testCases)('should to get diff between two files', ({ format, expected }) => {
@@ -34,6 +33,7 @@ test.each(testCases)('should to get diff between two files', ({ format, expected
 
 test('should to get exception', () => {
   expect(() => genDiff('', '', 'plain')).toThrow();
+  expect(() => genDiff(jsonPath1, jsonPath2, 'plai')).toThrow();
   expect(() => genDiff('', '')).toThrow();
   expect(() => genDiff('')).toThrow();
   expect(() => genDiff()).toThrow();
