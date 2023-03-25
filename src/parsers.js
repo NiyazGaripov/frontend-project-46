@@ -1,15 +1,11 @@
 import { load } from 'js-yaml';
 
-const EXTENSION = {
-  JSON: '.json',
-  YML: '.yml',
-  YAML: '.yaml',
+const parsers = {
+  '.yml': load,
+  '.yaml': load,
+  '.json': JSON.parse,
 };
-const parse = (data, extension = EXTENSION.JSON) => {
-  if (extension === EXTENSION.YML || extension === EXTENSION.YAML) {
-    return load(data);
-  }
-  return JSON.parse(data);
-};
+
+const parse = (data, dataType) => parsers[dataType](data);
 
 export default parse;
