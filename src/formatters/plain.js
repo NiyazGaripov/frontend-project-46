@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 const getTextWithRemovedProperty = (property) => `Property '${property}' was removed`;
 const getTextWithAddedProperty = (property, value) => `Property '${property}' was added with value: ${value}`;
-const getTextWithUpdatedProperty = (property, oldValue, newValue) => `Property '${property}' was updated. From ${oldValue} to ${newValue}`;
+const getTextWithUpdatedProperty = (property, valueFromAnotherDataStructure, nodeValue) => `Property '${property}' was updated. From ${valueFromAnotherDataStructure} to ${nodeValue}`;
 const createPropertyPath = (path, key) => (path === '' ? key : `${path}.${key}`);
 
 const transformValue = (nodeValue) => {
@@ -19,7 +19,7 @@ const transformValue = (nodeValue) => {
 
 const getStringPlainFormat = (tree) => {
   const iter = (ast, path = '') => ast.flatMap(({
-    key, oldValue, newValue, children, type,
+    key, valueFromAnotherDataStructure, nodeValue, children, type,
   }) => {
     const propertyPath = createPropertyPath(path, key);
 
@@ -27,12 +27,12 @@ const getStringPlainFormat = (tree) => {
       case 'removed':
         return getTextWithRemovedProperty(propertyPath);
       case 'added':
-        return getTextWithAddedProperty(propertyPath, transformValue(newValue));
+        return getTextWithAddedProperty(propertyPath, transformValue(nodeValue));
       case 'updated':
         return getTextWithUpdatedProperty(
           propertyPath,
-          transformValue(oldValue),
-          transformValue(newValue),
+          transformValue(valueFromAnotherDataStructure),
+          transformValue(nodeValue),
         );
       case 'nested':
         return iter(children, `${propertyPath}`);

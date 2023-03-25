@@ -24,22 +24,22 @@ const getStringStylishFormat = (tree) => {
     const bracketIndent = ' '.repeat(indentSize - DEFAULT_INDENT);
 
     const lines = node.map(({
-      key, oldValue, newValue, children, type,
+      key, valueFromAnotherDataStructure, nodeValue, children, type,
     }) => {
       switch (type) {
         case 'removed':
-          return `${currentIndent}- ${key}: ${stringify(newValue, depth + DEFAULT_INDENT)}`;
+          return `${currentIndent}- ${key}: ${stringify(nodeValue, depth + DEFAULT_INDENT)}`;
         case 'added':
-          return `${currentIndent}+ ${key}: ${stringify(newValue, depth + DEFAULT_INDENT)}`;
+          return `${currentIndent}+ ${key}: ${stringify(nodeValue, depth + DEFAULT_INDENT)}`;
         case 'updated': {
-          const removedData = `${currentIndent}- ${key}: ${stringify(oldValue, depth + DEFAULT_INDENT)}`;
-          const addedData = `${currentIndent}+ ${key}: ${stringify(newValue, depth + DEFAULT_INDENT)}`;
+          const removedData = `${currentIndent}- ${key}: ${stringify(valueFromAnotherDataStructure, depth + DEFAULT_INDENT)}`;
+          const addedData = `${currentIndent}+ ${key}: ${stringify(nodeValue, depth + DEFAULT_INDENT)}`;
           return `${removedData}\n${addedData}`;
         }
         case 'nested':
           return `${currentIndent}  ${key}: ${iter(children, depth + DEFAULT_INDENT)}`;
         default:
-          return `${currentIndent}  ${key}: ${stringify(newValue, depth + DEFAULT_INDENT)}`;
+          return `${currentIndent}  ${key}: ${stringify(nodeValue, depth + DEFAULT_INDENT)}`;
       }
     });
 
