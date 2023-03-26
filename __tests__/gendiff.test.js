@@ -17,7 +17,7 @@ const yamlPath1 = getFixturePath('file1.yml');
 const yamlPath2 = getFixturePath('file2.yml');
 const expectedStylish = getExpectedResult('expected-stylish.txt');
 const expectedPlain = getExpectedResult('expected-plain.txt');
-const expectedJson = getExpectedResult('expected-json.txt');
+const expectedJson = getExpectedResult('expected.json');
 
 const testCases = [
   { format: 'stylish', expected: expectedStylish },
