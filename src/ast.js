@@ -1,7 +1,15 @@
 import _ from 'lodash';
 
-const buildAST = (data1, data2) => _.sortBy(_.union(Object.keys(data1), Object.keys(data2)))
-  .map((key) => {
+const getSortedKeys = (data1, data2) => {
+  const unionKeys = _.union(Object.keys(data1), Object.keys(data2));
+
+  return _.sortBy(unionKeys);
+};
+
+const buildAST = (data1, data2) => {
+  const sortedKeys = getSortedKeys(data1, data2);
+
+  return sortedKeys.map((key) => {
     const valueFromData1 = data1[key];
     const valueFromData2 = data2[key];
 
@@ -26,5 +34,6 @@ const buildAST = (data1, data2) => _.sortBy(_.union(Object.keys(data1), Object.k
 
     return { key, nodeValue: valueFromData1, type: 'unchanged' };
   });
+};
 
 export default buildAST;
