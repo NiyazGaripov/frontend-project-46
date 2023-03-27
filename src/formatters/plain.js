@@ -14,7 +14,7 @@ const transformValue = (nodeValue) => {
     return '[complex value]';
   }
 
-  return nodeValue;
+  return `${nodeValue}`;
 };
 
 const getStringPlainFormat = (tree) => {
