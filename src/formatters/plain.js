@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 const getTextWithRemovedProperty = (property) => `Property '${property}' was removed`;
 const getTextWithAddedProperty = (property, value) => `Property '${property}' was added with value: ${value}`;
-const getTextWithUpdatedProperty = (property, valueFromAnotherDataStructure, nodeValue) => `Property '${property}' was updated. From ${valueFromAnotherDataStructure} to ${nodeValue}`;
+const getTextWithUpdatedProperty = (property, value1, nodeValue) => `Property '${property}' was updated. From ${value1} to ${nodeValue}`;
 const createPropertyPath = (path, key) => (path === '' ? key : `${path}.${key}`);
 
 const transformValue = (nodeValue) => {
@@ -19,7 +19,7 @@ const transformValue = (nodeValue) => {
 
 const getStringPlainFormat = (tree) => {
   const iter = (ast, path = '') => ast.flatMap(({
-    key, valueFromAnotherDataStructure, nodeValue, children, type,
+    key, value1, value2, nodeValue, children, type,
   }) => {
     const propertyPath = createPropertyPath(path, key);
 
@@ -31,8 +31,8 @@ const getStringPlainFormat = (tree) => {
       case 'updated':
         return getTextWithUpdatedProperty(
           propertyPath,
-          transformValue(valueFromAnotherDataStructure),
-          transformValue(nodeValue),
+          transformValue(value1),
+          transformValue(value2),
         );
       case 'nested':
         return iter(children, `${propertyPath}`);

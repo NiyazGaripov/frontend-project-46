@@ -24,7 +24,7 @@ const getStringStylishFormat = (tree) => {
     const bracketIndent = ' '.repeat(indentSize - DEFAULT_INDENT);
 
     const lines = node.map(({
-      key, valueFromAnotherDataStructure, nodeValue, children, type,
+      key, value1, value2, nodeValue, children, type,
     }) => {
       switch (type) {
         case 'removed':
@@ -32,8 +32,8 @@ const getStringStylishFormat = (tree) => {
         case 'added':
           return `${currentIndent}+ ${key}: ${stringify(nodeValue, depth + DEFAULT_INDENT)}`;
         case 'updated': {
-          const removedData = `${currentIndent}- ${key}: ${stringify(valueFromAnotherDataStructure, depth + DEFAULT_INDENT)}`;
-          const addedData = `${currentIndent}+ ${key}: ${stringify(nodeValue, depth + DEFAULT_INDENT)}`;
+          const removedData = `${currentIndent}- ${key}: ${stringify(value1, depth + DEFAULT_INDENT)}`;
+          const addedData = `${currentIndent}+ ${key}: ${stringify(value2, depth + DEFAULT_INDENT)}`;
           return `${removedData}\n${addedData}`;
         }
         case 'nested':

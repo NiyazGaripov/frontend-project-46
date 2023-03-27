@@ -20,7 +20,7 @@ const buildAST = (data1, data2) => _.sortBy(_.union(Object.keys(data1), Object.k
 
     if (!_.isEqual(valueFromData1, valueFromData2)) {
       return {
-        key, valueFromAnotherDataStructure: valueFromData1, nodeValue: valueFromData2, type: 'updated',
+        key, value1: valueFromData1, value2: valueFromData2, type: 'updated',
       };
     }
 
