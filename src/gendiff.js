@@ -4,6 +4,12 @@ import parse from './parsers.js';
 import buildAST from './ast.js';
 import getDataInSpecifiedFormat from './formatters/index.js';
 
+const extensionToDataType = {
+  '.yml': 'yaml',
+  '.yaml': 'yaml',
+  '.json': 'json',
+};
+
 const readFile = (filePath) => {
   const fullPath = path.resolve(process.cwd(), filePath);
   return fs.readFileSync(fullPath).toString();
@@ -12,8 +18,9 @@ const readFile = (filePath) => {
 const getData = (filePath) => {
   const fileContents = readFile(filePath);
   const fileExtension = path.extname(filePath);
+  const dataType = extensionToDataType[fileExtension];
 
-  return parse(fileContents, fileExtension);
+  return parse(fileContents, dataType);
 };
 
 const genDiff = (filePath1, filePath2, format = 'stylish') => {
