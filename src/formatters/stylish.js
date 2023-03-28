@@ -5,7 +5,9 @@ const makeIndent = (depth, hasOffsetToLeft = false, replacer = ' ') => {
   const OFFSET_TO_LEFT = 2;
   const indentSize = depth * INDENT_COUNT;
 
-  return hasOffsetToLeft ? replacer.repeat(indentSize - OFFSET_TO_LEFT) : replacer.repeat(indentSize);
+  return hasOffsetToLeft
+    ? replacer.repeat(indentSize - OFFSET_TO_LEFT)
+    : replacer.repeat(indentSize);
 };
 
 const stringify = (node, depth) => {
